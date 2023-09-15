@@ -1,11 +1,14 @@
 import pandas as pd
 import joblib
-from fastapi import FastAPI, Request, Form, HTTPException
+from fastapi import FastAPI, Form, HTTPException, Request
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.responses import HTMLResponse
 import uvicorn
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Cargar el DataFrame con los datos
 df = pd.read_csv('inmigracion_canada_prediccion.csv')
@@ -24,11 +27,11 @@ templates = Jinja2Templates(directory="templates")
 def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-@app.post("/predict/")
+@app.post("/predict/", response_class=HTMLResponse)
 def predict_inmigrantes(
     selected_year: int = Form(...),
-    selected_province: str = Form(...)
-):
+    selected_province: str = Form(...),
+    request: Request = Request):
     def predict_inmigrants(year, localidad_encoded):
         # Crear un DataFrame con las características ingresadas
         data = pd.DataFrame({
@@ -50,13 +53,13 @@ def predict_inmigrantes(
         try:
             selected_province_encoded = label_encoder.transform([selected_province])[0]
         except ValueError:
-            return JSONResponse(content={"error": "Provincia no válida"})
+            return HTTPException(detail="Provincia no válida")
 
     # Realizar la predicción utilizando el modelo cargado
     prediction = predict_inmigrants(selected_year, selected_province_encoded)
     
-    return JSONResponse(content={f"Predicción para {selected_province} el {selected_year}": prediction})
-
+    # Renderizar la plantilla "result.html" con los resultados
+    return templates.TemplateResponse("result.html", {"request": request, "prediction": prediction, "year": selected_year, "province": selected_province}) 
 
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8000)

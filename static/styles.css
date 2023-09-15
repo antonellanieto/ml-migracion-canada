@@ -1,0 +1,24 @@
+body {
+    font-family: 'Bree Serif', serif;
+    background-color: #F9FAEA ;
+   
+    }
+
+
+img{
+    height: 170px;
+    width: 170px;
+    margin-left: 500px;
+
+}
+
+form{
+    margin-left: 300px;
+
+}
+
+#titulo{
+    margin-left: 390px;
+    color: #9EA164;
+}
+
