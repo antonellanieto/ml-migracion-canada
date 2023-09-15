@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicción de Inmigrantes</title>
+</head>
+<body>
+    <h1>Predicción de Inmigrantes</h1>
+    
+    <form action="/predict" method="post">
+        <label for="selected_year">Ingresa un año:</label>
+        <input type="number" name="selected_year" id="selected_year" required>
+        
+        <select name="selected_province" id="selected_province">
+            <option value="Canada">Canada</option>
+            <option value="Ontario">Ontario</option>
+            <option value="Quebec">Quebec</option>
+            <option value="British_Columbia">British Columbia</option>
+            <option value="Quebec">Quebec</option>
+            <option value="Manitoba">Manitoba</option>
+            <option value="Saskatchewan">Saskatchewan</option>
+            <option value="Yukon">Yukon</option>
+            <option value="Nunavut">Nunavut</option>
+            <option value="New_Brunswick">New Brunswick</option>
+            <option value="Prince_Edward_Island">Prince Edward Island</option>
+            <option value="Newfoundland_and_Labrador">Newfoundland and Labrador</option>
+            <option value="Northwest_Territories">Northwest Territories</option>
+            <option value="Nova_Scotia">Nova Scotia</option>
+            <option value="Alberta">Alberta</option>
+          
+        </select>
+
+        <button type="submit">Predecir</button>
+    </form>
+    
+ 
+</body>
+</html>
